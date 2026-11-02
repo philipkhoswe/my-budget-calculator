@@ -1,0 +1,59 @@
+# Personal Budget Calculator
+# Created by: [stanly philip]
+# Language: Python (Tkinter GUI)
+
+import tkinter as tk
+from tkinter import messagebox
+
+# This function runs when the user clicks the "Calculate" button
+def calculate_budget():
+    try:
+        # Get the numbers the user typed into the boxes
+        income = float(entry_income.get())
+        expenses = float(entry_expenses.get())
+        
+        # Do the math: Income minus Expenses
+        balance = income - expenses
+        
+        # Check the result and change the text color
+        if balance > 0:
+            # If they have money left, show green text
+            result_label.config(text=f"Remaining Balance: MWK {balance:,.2f}\n(You saved money!)", fg="green")
+        elif balance == 0:
+            # If it's exactly zero, show black text
+            result_label.config(text="Remaining Balance: MWK 0.00\n(Exactly broke even)", fg="black")
+        else:
+            # If they overspent, show red text
+            result_label.config(text=f"Remaining Balance: MWK {balance:,.2f}\n(You overspent!)", fg="red")
+            
+    except ValueError:
+        # If the user types letters instead of numbers, show an error pop-up
+        messagebox.showerror("Input Error", "Please enter numbers only!")
+
+# --- Setup the Main Window ---
+root = tk.Tk()
+root.title("My Budget App") # Name of the window
+root.geometry("300x350") # Size of the window
+
+# --- Income Input Box ---
+tk.Label(root, text="Total Income (MWK):").pack(pady=5)
+entry_income = tk.Entry(root)
+entry_income.pack(pady=5)
+
+# --- Expenses Input Box ---
+tk.Label(root, text="Total Expenses (MWK):").pack(pady=5)
+entry_expenses = tk.Entry(root)
+entry_expenses.pack(pady=5)
+
+# --- Calculate Button ---
+# This is the button the user clicks
+calculate_btn = tk.Button(root, text="Calculate Balance", command=calculate_budget, bg="blue", fg="white")
+calculate_btn.pack(pady=15)
+
+# --- Result Display ---
+# This is where the answer will show up
+result_label = tk.Label(root, text="Enter numbers above", font=("Arial", 11, "bold"))
+result_label.pack(pady=10)
+
+# Start the application
+root.mainloop()
